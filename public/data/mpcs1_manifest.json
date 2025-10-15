@@ -1,5 +1,5 @@
 {
-  "version": "1.0.1",
+  "version": "1.1.0",
   "shared": {
     "text_card": "/assets/cards/BLANK_TARRO_00.png"
   },
@@ -32,11 +32,11 @@
   ],
   "scoring_keys": {
     "R0": ["G01", "G02", "G03", "G04", "G05"],
-    "R1": ["NEAON_01", "NEAON_02", "NEAON_03"],
+    "R1": ["A01_NEAON_CHASE", "A02_NEAON_SIGNAL", "A03_NEAON_TRAILS"],
     "R2": ["CARD_TEXT_A"],
-    "R3": ["STIL_01", "STIL_02", "STIL_03"],
+    "R3": ["B01_NEAON_RAIN", "B02_NEAON_TEMPLE", "B03_NEAON_ECHO"],
     "R4": ["CARD_TEXT_B"],
-    "R5": ["FORREST_01", "FORREST_02", "FORREST_03"],
+    "R5": ["A01_NEAON_CHASE", "A02_NEAON_SIGNAL", "A03_NEAON_TRAILS"],
     "R6": ["CARD_TEXT_C"]
   },
   "gates": [

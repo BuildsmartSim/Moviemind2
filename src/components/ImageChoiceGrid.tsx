@@ -1,67 +1,46 @@
-import { useId, useMemo, useState, type SyntheticEvent } from 'react';
-import { MissingAssetNotice, getAssetPlaceholder } from './MissingAssetNotice';
+import React, { useRef } from "react";
 
-interface ImageChoice {
-  src: string;
-  alt: string;
-  key: string;
-}
+type Img = { src: string; alt: string; key: string };
 
-interface ImageChoiceGridProps {
-  images: ImageChoice[];
+export default function ImageChoiceGrid({
+  images, value, onChange
+}: {
+  images: Img[];
   value?: string;
-  onChange: (key: string) => void;
-}
-
-export function ImageChoiceGrid({ images, value, onChange }: ImageChoiceGridProps) {
-  const groupId = useId();
-  const fallbackSrc = useMemo(() => getAssetPlaceholder(), []);
-  const [missingAssets, setMissingAssets] = useState<Record<string, boolean>>({});
-
-  const handleImageError = (imageKey: string) => (event: SyntheticEvent<HTMLImageElement>) => {
-    const { currentTarget } = event;
-    if (currentTarget.src === fallbackSrc) {
-      return;
-    }
-    currentTarget.src = fallbackSrc;
-    setMissingAssets((previous) => {
-      if (previous[imageKey]) {
-        return previous;
-      }
-      return { ...previous, [imageKey]: true };
-    });
-  };
+  onChange: (k: string) => void;
+}) {
+  const warned = useRef<Set<string>>(new Set());
+  const fallbackDataUrl =
+    "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGD4DwABAgEAfVd7VwAAAABJRU5ErkJggg==";
 
   return (
-    <div role="radiogroup" className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-      {images.map((image) => {
-        const isSelected = image.key === value;
+    <div role="radiogroup" className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
+      {images.map(img => {
+        const sel = img.key === value;
         return (
-          <label
-            key={image.key}
-            className={`group relative block cursor-pointer overflow-hidden rounded-2xl border border-white/5 bg-surfaceSoft/60 shadow-ambient transition-all duration-[var(--transition-duration)] ease-cinematic hover:border-white/15 focus-within:border-accent ${
-              isSelected ? 'ring-2 ring-accent ring-offset-2 ring-offset-surface' : ''
-            }`}
+          <button
+            key={img.key}
+            role="radio"
+            aria-checked={sel}
+            onClick={() => onChange(img.key)}
+            className={`group relative aspect-[2.39/1] overflow-hidden rounded-2xl ring-offset-4 ring-offset-black focus-visible:ring-2 transition hover:scale-[1.02] ${sel ? 'ring-2 ring-[var(--mm-amber)]' : ''}`}
           >
-            <input
-              type="radio"
-              name={`image-choice-${groupId}`}
-              value={image.key}
-              className="sr-only"
-              checked={isSelected}
-              onChange={() => onChange(image.key)}
-            />
             <img
-              src={image.src}
-              alt={image.alt}
-              loading="lazy"
-              onError={handleImageError(image.key)}
-              className="h-56 w-full object-cover transition-transform duration-[var(--transition-duration)] ease-cinematic group-hover:scale-[1.02]"
+              src={img.src}
+              alt={img.alt}
+              onError={(e) => {
+                const src = (e.currentTarget as HTMLImageElement).src;
+                if (!warned.current.has(src)) {
+                  warned.current.add(src);
+                  // eslint-disable-next-line no-console
+                  console.warn('Missing asset:', src);
+                }
+                (e.currentTarget as HTMLImageElement).src = fallbackDataUrl;
+              }}
+              className="h-full w-full object-cover opacity-95"
             />
-            <MissingAssetNotice show={Boolean(missingAssets[image.key])} />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/0 to-black/40" aria-hidden />
-            <div className="absolute bottom-4 left-4 text-sm font-medium text-white/80">{image.alt}</div>
-          </label>
+            <span className="pointer-events-none absolute inset-0 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.06)]" />
+          </button>
         );
       })}
     </div>

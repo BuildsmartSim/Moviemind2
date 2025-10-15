@@ -1,88 +1,50 @@
-import { useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Card } from '../components/Card';
-import { FooterNav } from '../components/FooterNav';
-import { TopBar } from '../components/TopBar';
-import type { AnswersState, RoundAnswerKey } from '../App';
-import type { MPCS1Manifest } from '../lib/manifest';
+import { useEffect, useState } from "react";
+import { fetchCsv } from "../lib/csv";
+import { loadAnswers, scoreAnswers } from "../lib/scoring";
 
-interface ResultsProps {
-  manifest: MPCS1Manifest;
-  answers: AnswersState;
-  onReset: () => void;
-}
+type Movie = { title?: string; quadrant?: string; year?: string; [k: string]: string|undefined };
 
-const ROUND_KEYS: RoundAnswerKey[] = ['R1', 'R2', 'R3', 'R4', 'R5', 'R6'];
+export default function Results() {
+  const [movie, setMovie] = useState<Movie | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const answers = loadAnswers();
+  const { quadrant } = scoreAnswers(answers);
 
-export default function Results({ manifest, answers, onReset }: ResultsProps) {
-  const navigate = useNavigate();
-
-  const entryGate = useMemo(() => {
-    if (!answers.entryGateId) {
-      return undefined;
-    }
-
-    return manifest.gates.find((gate) => gate.id === answers.entryGateId);
-  }, [answers.entryGateId, manifest.gates]);
-
-  const gateSummaries = useMemo(() => {
-    return Object.entries(answers.gateAnswers).map(([gateId, gateAnswers]) => {
-      const gate = manifest.gates.find((item) => item.id === gateId);
-      return {
-        gateId,
-        gateName: gate ? gate.name : gateId,
-        answers: ROUND_KEYS.map((roundKey) => ({
-          roundKey,
-          value: gateAnswers?.[roundKey]
-        }))
-      };
-    });
-  }, [answers.gateAnswers, manifest.gates]);
-
-  const handleRestart = () => {
-    onReset();
-    navigate('/');
-  };
+  useEffect(() => {
+    (async () => {
+      try {
+        const rows = await fetchCsv("/data/movies_80s.csv").catch(() => fetchCsv("/data/movies.csv"));
+        const q = quadrant.trim();
+        const matches = rows.filter(r => (r.quadrant || '').trim() === q);
+        setMovie((matches[0] as Movie) || (rows[0] as Movie) || null);
+      } catch (e: any) {
+        setError(e.message || "No movie data found");
+      }
+    })();
+  }, [quadrant]);
 
   return (
-    <div className="flex min-h-screen flex-col bg-surface">
-      <TopBar onBack={() => navigate(-1)} />
-      <main className="flex flex-1 flex-col items-center gap-8 px-6 pb-16 pt-10">
-        <div className="max-w-3xl text-center">
-          <h1 className="text-3xl font-semibold tracking-[0.2em] text-textPrimary">MPCS-1 Results</h1>
-          <p className="mt-4 text-sm text-textSecondary">
-            A lightweight snapshot of your journey through tonight&apos;s questionnaire. Reset any time to explore a different path.
-          </p>
+    <div className="max-w-2xl mx-auto">
+      <h1 className="text-3xl md:text-4xl font-semibold mb-4">MPCS-1 Results</h1>
+      <p className="opacity-80 mb-6">Quadrant: <strong>{quadrant}</strong></p>
+
+      {error && <div className="rounded-xl p-4 bg-red-500/10 border border-red-500/30">{error}</div>}
+
+      {movie ? (
+        <div className="rounded-2xl p-5 bg-white/5 border border-white/10">
+          <div className="text-xl font-medium">{movie.title || "Untitled"}</div>
+          <div className="opacity-80">{movie.year ? `(${movie.year})` : null}</div>
+          <div className="mt-2 text-sm opacity-70">Matched on quadrant: {quadrant}</div>
         </div>
-        <div className="flex w-full max-w-4xl flex-col gap-6">
-          <Card>
-            <h2 className="text-lg font-semibold text-textPrimary">Chosen Gate</h2>
-            <p className="mt-2 text-sm text-textSecondary">
-              {entryGate ? `${entryGate.name} (${entryGate.quadrant.replace(/_/g, ' / ')})` : 'No gate selected yet.'}
-            </p>
-          </Card>
-          {gateSummaries.length > 0 ? (
-            gateSummaries.map((summary) => (
-              <Card key={summary.gateId}>
-                <h3 className="text-base font-semibold text-textPrimary">{summary.gateName}</h3>
-                <ul className="mt-4 space-y-2 text-sm text-textSecondary">
-                  {summary.answers.map((answer) => (
-                    <li key={answer.roundKey} className="flex items-center justify-between gap-3">
-                      <span className="uppercase tracking-[0.3em] text-xs text-textSecondary/80">{answer.roundKey}</span>
-                      <span className="text-textPrimary/90">{answer.value ?? '—'}</span>
-                    </li>
-                  ))}
-                </ul>
-              </Card>
-            ))
-          ) : (
-            <Card>
-              <p className="text-sm text-textSecondary">You haven&apos;t completed any rounds yet. Continue exploring the gates.</p>
-            </Card>
-          )}
+      ) : !error ? (
+        <div className="rounded-xl p-4 bg-white/5 border border-white/10">
+          No movie rows found yet. Add <code>/public/data/movies_80s.csv</code> with a <code>quadrant</code> column.
         </div>
-      </main>
-      <FooterNav onBack={() => navigate('/')} onNext={handleRestart} />
+      ) : null}
+
+      <div className="mt-8">
+        <a href="/" className="rounded-2xl px-5 py-2 bg-[#E8E3D8] text-[#1C1C1C] hover:opacity-90">Restart</a>
+      </div>
     </div>
   );
 }

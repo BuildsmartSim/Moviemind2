@@ -5,10 +5,10 @@ import { FooterNav } from '../components/FooterNav';
 import { ImageChoiceGrid } from '../components/ImageChoiceGrid';
 import { ParallaxLayer } from '../components/ParallaxLayer';
 import { TopBar } from '../components/TopBar';
-import type { MPCS1Manifest } from '../lib/manifest';
+import type { Manifest } from '../lib/manifest';
 
 interface EntryProps {
-  manifest: MPCS1Manifest;
+  manifest: Manifest;
   selectedGateId?: string;
   onSelectGate: (gateId: string) => void;
 }

@@ -1,32 +1,32 @@
 {
   "version": "1.0.1",
   "shared": {
-    "text_card": "You breathe in the dusk-lit theatre, catching the scent of rain on old velvet."
+    "text_card": "/assets/cards/BLANK_TARRO_00.png"
   },
   "entry_round": [
     {
       "gateId": "G01",
-      "image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/l1GX4QAAAABJRU5ErkJggg==",
+      "image": "/assets/cards/gates/G01.png",
       "seedAxes": ["Neon", "Pulse"]
     },
     {
       "gateId": "G02",
-      "image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/l1GX4QAAAABJRU5ErkJggg==",
+      "image": "/assets/cards/gates/G02.png",
       "seedAxes": ["Still", "Echo"]
     },
     {
       "gateId": "G03",
-      "image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/l1GX4QAAAABJRU5ErkJggg==",
+      "image": "/assets/cards/gates/G03.png",
       "seedAxes": ["Forest", "Haze"]
     },
     {
       "gateId": "G04",
-      "image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/l1GX4QAAAABJRU5ErkJggg==",
+      "image": "/assets/cards/gates/G04.png",
       "seedAxes": ["Desert", "Glow"]
     },
     {
       "gateId": "G05",
-      "image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/l1GX4QAAAABJRU5ErkJggg==",
+      "image": "/assets/cards/gates/G05.png",
       "seedAxes": ["Neutral", "Calm"]
     }
   ],

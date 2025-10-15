@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { FadeTransition } from './components/FadeTransition';
-import { loadManifest, type MPCS1Manifest } from './lib/manifest';
+import { loadManifest, type Manifest } from './lib/manifest';
 import Entry from './pages/Entry';
 import Gate from './pages/Gate';
 import Results from './pages/Results';
@@ -40,7 +40,7 @@ function loadStoredAnswers(): AnswersState {
 
 export default function App() {
   const location = useLocation();
-  const [manifest, setManifest] = useState<MPCS1Manifest | null>(null);
+  const [manifest, setManifest] = useState<Manifest | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [answers, setAnswers] = useState<AnswersState>(() => loadStoredAnswers());
 
@@ -125,10 +125,7 @@ export default function App() {
             />
           }
         />
-        <Route
-          path="/results"
-          element={<Results manifest={manifest} answers={appState.answers} onReset={appState.reset} />}
-        />
+        <Route path="/results" element={<Results />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </FadeTransition>

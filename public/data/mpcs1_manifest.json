@@ -1,32 +1,32 @@
 {
   "version": "1.0.1",
   "shared": {
-    "text_card": "You breathe in the dusk-lit theatre, catching the scent of rain on old velvet."
+    "text_card": "/assets/cards/BLANK_TARRO_00.png"
   },
   "entry_round": [
     {
       "gateId": "G01",
-      "image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/l1GX4QAAAABJRU5ErkJggg==",
+      "image": "/assets/cards/gates/G01.png",
       "seedAxes": ["Neon", "Pulse"]
     },
     {
       "gateId": "G02",
-      "image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/l1GX4QAAAABJRU5ErkJggg==",
+      "image": "/assets/cards/gates/G02.png",
       "seedAxes": ["Still", "Echo"]
     },
     {
       "gateId": "G03",
-      "image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/l1GX4QAAAABJRU5ErkJggg==",
+      "image": "/assets/cards/gates/G03.png",
       "seedAxes": ["Forest", "Haze"]
     },
     {
       "gateId": "G04",
-      "image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/l1GX4QAAAABJRU5ErkJggg==",
+      "image": "/assets/cards/gates/G04.png",
       "seedAxes": ["Desert", "Glow"]
     },
     {
       "gateId": "G05",
-      "image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/l1GX4QAAAABJRU5ErkJggg==",
+      "image": "/assets/cards/gates/G05.png",
       "seedAxes": ["Neutral", "Calm"]
     }
   ],
@@ -46,16 +46,16 @@
       "quadrant": "HV_HA",
       "rounds": {
         "R1_images": [
-          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/l1GX4QAAAABJRU5ErkJggg==",
-          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/l1GX4QAAAABJRU5ErkJggg==",
-          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/l1GX4QAAAABJRU5ErkJggg==",
-          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/l1GX4QAAAABJRU5ErkJggg=="
+          "NEAON_01.png",
+          "NEAON_02.png",
+          "NEAON_03.png",
+          "NEAON_04.png"
         ],
         "R2_text_card": "A corridor of lights flickers alive, asking how much voltage you can carry forward tonight.",
         "R3_images": [
-          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/l1GX4QAAAABJRU5ErkJggg==",
-          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/l1GX4QAAAABJRU5ErkJggg==",
-          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/l1GX4QAAAABJRU5ErkJggg=="
+          "NEAON_05.png",
+          "NEAON_06.png",
+          "NEAON_07.png"
         ],
         "R4_text_card": "The rush settles. A pulse echoes from a distance, inviting calibration.",
         "R5_images": "reuse_A+B_curated_4",
@@ -68,22 +68,22 @@
       "quadrant": "HV_LA",
       "rounds": {
         "R1_images": [
-          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/l1GX4QAAAABJRU5ErkJggg==",
-          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/l1GX4QAAAABJRU5ErkJggg==",
-          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/l1GX4QAAAABJRU5ErkJggg==",
-          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/l1GX4QAAAABJRU5ErkJggg=="
+          "STIL_01.png",
+          "STIL_02.png",
+          "STIL_03.png",
+          "STIL_04.png"
         ],
         "R2_text_card": "Soft halos form around every object; the room asks you to listen before you speak.",
         "R3_images": [
-          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/l1GX4QAAAABJRU5ErkJggg==",
-          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/l1GX4QAAAABJRU5ErkJggg==",
-          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/l1GX4QAAAABJRU5ErkJggg=="
+          "STIL_05.png",
+          "STIL_06.png",
+          "STIL_07.png"
         ],
         "R4_text_card": "A whisper in the projector booth wonders if stillness is enough to carry you.",
         "R5_images": [
-          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/l1GX4QAAAABJRU5ErkJggg==",
-          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/l1GX4QAAAABJRU5ErkJggg==",
-          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/l1GX4QAAAABJRU5ErkJggg=="
+          "STIL_08.png",
+          "STIL_09.png",
+          "STIL_10.png"
         ],
         "R6_text_card": "The gate hushes. Only a gesture remains to confirm your passage."
       }
@@ -94,16 +94,16 @@
       "quadrant": "LV_HA",
       "rounds": {
         "R1_images": [
-          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/l1GX4QAAAABJRU5ErkJggg==",
-          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/l1GX4QAAAABJRU5ErkJggg==",
-          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/l1GX4QAAAABJRU5ErkJggg==",
-          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/l1GX4QAAAABJRU5ErkJggg=="
+          "FORREST_01.png",
+          "FORREST_02.png",
+          "FORREST_03.png",
+          "FORREST_04.png"
         ],
         "R2_text_card": "Moss-soft neon and rainfall drumbeats ask if you will run or root.",
         "R3_images": [
-          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/l1GX4QAAAABJRU5ErkJggg==",
-          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/l1GX4QAAAABJRU5ErkJggg==",
-          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/l1GX4QAAAABJRU5ErkJggg=="
+          "FORREST_05.png",
+          "FORREST_06.png",
+          "FORREST_07.png"
         ],
         "R4_text_card": "Branches lean close with patient questions, waiting for your pulse to answer.",
         "R5_images": "reuse_A+B_curated_4",
@@ -116,16 +116,16 @@
       "quadrant": "LV_LA",
       "rounds": {
         "R1_images": [
-          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/l1GX4QAAAABJRU5ErkJggg==",
-          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/l1GX4QAAAABJRU5ErkJggg==",
-          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/l1GX4QAAAABJRU5ErkJggg==",
-          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/l1GX4QAAAABJRU5ErkJggg=="
+          "DESSERT_01.png",
+          "DESSERT_02.png",
+          "DESSERT_03.png",
+          "DESSERT_04.png"
         ],
         "R2_text_card": "Heat waves shimmer as the soundtrack drops out. Are you ready to score the silence?",
         "R3_images": [
-          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/l1GX4QAAAABJRU5ErkJggg==",
-          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/l1GX4QAAAABJRU5ErkJggg==",
-          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/l1GX4QAAAABJRU5ErkJggg=="
+          "DESSERT_05.png",
+          "DESSERT_06.png",
+          "DESSERT_07.png"
         ],
         "R4_text_card": "A quiet bloom unfolds beneath the sand, offering a patient cadence.",
         "R5_images": "reuse_A+B_curated_4",
@@ -138,22 +138,22 @@
       "quadrant": "Neutral",
       "rounds": {
         "R1_images": [
-          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/l1GX4QAAAABJRU5ErkJggg==",
-          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/l1GX4QAAAABJRU5ErkJggg==",
-          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/l1GX4QAAAABJRU5ErkJggg==",
-          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/l1GX4QAAAABJRU5ErkJggg=="
+          "NEUTRAL_01.png",
+          "NEUTRAL_02.png",
+          "NEUTRAL_03.png",
+          "NEUTRAL_04.png"
         ],
         "R2_text_card": "Orbiting perspectives wait for your angle. Balance is the only light source.",
         "R3_images": [
-          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/l1GX4QAAAABJRU5ErkJggg==",
-          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/l1GX4QAAAABJRU5ErkJggg==",
-          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/l1GX4QAAAABJRU5ErkJggg=="
+          "NEUTRAL_05.png",
+          "NEUTRAL_06.png",
+          "NEUTRAL_07.png"
         ],
         "R4_text_card": "Silence and motion hold equal weight, asking which you will choose.",
         "R5_images": [
-          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/l1GX4QAAAABJRU5ErkJggg==",
-          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/l1GX4QAAAABJRU5ErkJggg==",
-          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/l1GX4QAAAABJRU5ErkJggg=="
+          "NEUTRAL_08.png",
+          "NEUTRAL_09.png",
+          "NEUTRAL_10.png"
         ],
         "R6_text_card": "The neutral gate clears. A final note waits for your direction."
       }

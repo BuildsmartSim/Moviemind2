@@ -5,10 +5,10 @@ import { FooterNav } from '../components/FooterNav';
 import { ImageChoiceGrid } from '../components/ImageChoiceGrid';
 import { ParallaxLayer } from '../components/ParallaxLayer';
 import { TopBar } from '../components/TopBar';
-import type { MPCS1Manifest } from '../lib/manifest';
+import type { Manifest } from '../lib/manifest';
 
 interface EntryProps {
-  manifest: MPCS1Manifest;
+  manifest: Manifest;
   selectedGateId?: string;
   onSelectGate: (gateId: string) => void;
 }
@@ -28,9 +28,9 @@ export default function Entry({ manifest, selectedGateId, onSelectGate }: EntryP
   const images = manifest.entry_round.map((entry) => {
     const gate = gateLookup.get(entry.gateId);
     return {
+      id: entry.gateId,
       src: entry.image,
-      alt: gate ? gate.name : entry.gateId,
-      key: entry.gateId
+      alt: gate ? gate.name : entry.gateId
     };
   });
 

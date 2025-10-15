@@ -1,69 +1,80 @@
-import { useId, useMemo, useState, type SyntheticEvent } from 'react';
-import { MissingAssetNotice, getAssetPlaceholder } from './MissingAssetNotice';
+import { type MutableRefObject, useRef, useState } from "react";
+import { FALLBACK_IMG, imageSrcFor } from "../lib/imagePaths";
 
-interface ImageChoice {
-  src: string;
+type Img = {
+  id: string;
   alt: string;
-  key: string;
-}
+  fileName?: string;
+  src?: string;
+};
 
-interface ImageChoiceGridProps {
-  images: ImageChoice[];
+export default function ImageChoiceGrid({
+  images, value, onChange
+}: {
+  images: Img[];
   value?: string;
-  onChange: (key: string) => void;
-}
-
-export function ImageChoiceGrid({ images, value, onChange }: ImageChoiceGridProps) {
-  const groupId = useId();
-  const fallbackSrc = useMemo(() => getAssetPlaceholder(), []);
-  const [missingAssets, setMissingAssets] = useState<Record<string, boolean>>({});
-
-  const handleImageError = (imageKey: string) => (event: SyntheticEvent<HTMLImageElement>) => {
-    const { currentTarget } = event;
-    if (currentTarget.src === fallbackSrc) {
-      return;
-    }
-    currentTarget.src = fallbackSrc;
-    setMissingAssets((previous) => {
-      if (previous[imageKey]) {
-        return previous;
-      }
-      return { ...previous, [imageKey]: true };
-    });
-  };
+  onChange: (k: string) => void;
+}) {
+  const warned = useRef<Set<string>>(new Set());
 
   return (
-    <div role="radiogroup" className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-      {images.map((image) => {
-        const isSelected = image.key === value;
-        return (
-          <label
-            key={image.key}
-            className={`group relative block cursor-pointer overflow-hidden rounded-2xl border border-white/5 bg-surfaceSoft/60 shadow-ambient transition-all duration-[var(--transition-duration)] ease-cinematic hover:border-white/15 focus-within:border-accent ${
-              isSelected ? 'ring-2 ring-accent ring-offset-2 ring-offset-surface' : ''
-            }`}
-          >
-            <input
-              type="radio"
-              name={`image-choice-${groupId}`}
-              value={image.key}
-              className="sr-only"
-              checked={isSelected}
-              onChange={() => onChange(image.key)}
-            />
-            <img
-              src={image.src}
-              alt={image.alt}
-              loading="lazy"
-              onError={handleImageError(image.key)}
-              className="h-56 w-full object-cover transition-transform duration-[var(--transition-duration)] ease-cinematic group-hover:scale-[1.02]"
-            />
-            <MissingAssetNotice show={Boolean(missingAssets[image.key])} />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/0 to-black/40" aria-hidden />
-            <div className="absolute bottom-4 left-4 text-sm font-medium text-white/80">{image.alt}</div>
-          </label>
-        );
-      })}
+    <div role="radiogroup" className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-6">
+      {images.map((img, index) => (
+        <ImageChoiceTile
+          key={`${img.id}-${index}`}
+          image={img}
+          selected={img.id === value}
+          onSelect={() => onChange(img.id)}
+          warned={warned}
+        />
+      ))}
     </div>
+  );
+}
+
+function ImageChoiceTile({
+  image,
+  selected,
+  onSelect,
+  warned
+}: {
+  image: Img;
+  selected: boolean;
+  onSelect: () => void;
+  warned: MutableRefObject<Set<string>>;
+}) {
+  const initialSrc = image.fileName ? imageSrcFor(image.fileName) : image.src || FALLBACK_IMG;
+  const [resolved, setResolved] = useState(initialSrc);
+
+  return (
+    <button
+      type="button"
+      role="radio"
+      aria-checked={selected}
+      onClick={onSelect}
+      className={`group relative overflow-hidden rounded-2xl ring-offset-4 ring-offset-black transition focus-visible:ring-2 hover:scale-[1.02] aspect-[3/4] ${
+        selected ? "ring-2 ring-[var(--mm-amber)]" : ""
+      }`}
+    >
+      <img
+        src={resolved}
+        alt={image.alt}
+        loading="lazy"
+        decoding="async"
+        onError={() => {
+          if (resolved === FALLBACK_IMG) {
+            return;
+          }
+          if (!warned.current.has(initialSrc)) {
+            warned.current.add(initialSrc);
+            // eslint-disable-next-line no-console
+            console.warn("Missing asset:", initialSrc);
+          }
+          setResolved(FALLBACK_IMG);
+        }}
+        className="h-full w-full object-cover object-center opacity-95"
+      />
+      <span className="pointer-events-none absolute inset-0 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.06)]" />
+    </button>
   );
 }

@@ -4,10 +4,10 @@ import { FooterNav } from '../components/FooterNav';
 import { GateFrame } from '../components/GateFrame';
 import { ImageChoiceGrid } from '../components/ImageChoiceGrid';
 import { ProgressRail } from '../components/ProgressRail';
-import { TextRoundCard } from '../components/TextRoundCard';
+import TextRoundCard from '../components/TextRoundCard';
 import { TopBar } from '../components/TopBar';
 import type { AnswersState, GateAnswerMap, RoundAnswerKey } from '../App';
-import type { MPCS1Manifest } from '../lib/manifest';
+import type { Manifest } from '../lib/manifest';
 
 const ROUND_ORDER: RoundAnswerKey[] = ['R1', 'R2', 'R3', 'R4', 'R5', 'R6'];
 const TEXT_OPTIONS = [
@@ -17,16 +17,9 @@ const TEXT_OPTIONS = [
 ];
 
 interface GateProps {
-  manifest: MPCS1Manifest;
+  manifest: Manifest;
   answers: AnswersState;
   onSetAnswer: (gateId: string, round: RoundAnswerKey, value: string) => void;
-}
-
-function splitVignette(text: string): string[] {
-  return text
-    .split(/\n+/)
-    .map((paragraph) => paragraph.trim())
-    .filter(Boolean);
 }
 
 export default function Gate({ manifest, answers, onSetAnswer }: GateProps) {
@@ -120,11 +113,15 @@ export default function Gate({ manifest, answers, onSetAnswer }: GateProps) {
         <GateFrame title={gate.name} quadrant={gate.quadrant}>
           {currentRoundKey === 'R1' || currentRoundKey === 'R3' || currentRoundKey === 'R5' ? (
             <ImageChoiceGrid
-              images={resolveRoundImages(currentRoundKey).map((imageSrc, index) => ({
-                src: imageSrc,
-                alt: `${gate.name} vision ${index + 1}`,
-                key: imageSrc
-              }))}
+              images={resolveRoundImages(currentRoundKey).map((imageValue, index) => {
+                const isDataUrl = /^data:image\//i.test(imageValue);
+                return {
+                  id: imageValue,
+                  fileName: isDataUrl ? undefined : imageValue,
+                  src: isDataUrl ? imageValue : undefined,
+                  alt: `${gate.name} vision ${index + 1}`
+                };
+              })}
               value={typeof currentAnswer === 'string' ? currentAnswer : undefined}
               onChange={(value) => onSetAnswer(gate.id, currentRoundKey, value)}
             />
@@ -133,16 +130,14 @@ export default function Gate({ manifest, answers, onSetAnswer }: GateProps) {
           {currentRoundKey === 'R2' || currentRoundKey === 'R4' || currentRoundKey === 'R6' ? (
             <TextRoundCard
               roundLabel={`Round ${currentRoundKey}`}
-              vignette={[
-                manifest.shared.text_card,
-                ...splitVignette(
-                  currentRoundKey === 'R2'
-                    ? gate.rounds.R2_text_card
-                    : currentRoundKey === 'R4'
-                    ? gate.rounds.R4_text_card
-                    : gate.rounds.R6_text_card
-                )
-              ]}
+              vignette={
+                currentRoundKey === 'R2'
+                  ? gate.rounds.R2_text_card
+                  : currentRoundKey === 'R4'
+                  ? gate.rounds.R4_text_card
+                  : gate.rounds.R6_text_card
+              }
+              sharedTextCardSrc={manifest.shared.text_card}
               options={TEXT_OPTIONS}
               value={typeof currentAnswer === 'string' ? currentAnswer : undefined}
               onChange={(value) => onSetAnswer(gate.id, currentRoundKey, value)}

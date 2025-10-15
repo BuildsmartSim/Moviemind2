@@ -1,84 +1,66 @@
-import { useMemo, useState, type SyntheticEvent } from 'react';
-import { MissingAssetNotice, getAssetPlaceholder } from './MissingAssetNotice';
+import React from "react";
+import { FALLBACK_IMG } from "../lib/imagePaths";
+import { normalizeVignette } from "../lib/manifest";
 
-interface TextRoundOption {
-  id: 'A' | 'B' | 'C';
-  text: string;
-}
+type Opt = { id: 'A'|'B'|'C'; text: string };
 
-interface TextRoundCardProps {
+export default function TextRoundCard({
+  roundLabel, vignette, sharedTextCardSrc, options, value, onChange
+}: {
   roundLabel: string;
-  vignette: string[];
-  options: TextRoundOption[];
+  vignette: string | string[] | undefined;
+  sharedTextCardSrc: string; // from manifest.shared.text_card
+  options: Opt[];
   value?: string;
-  onChange: (id: 'A' | 'B' | 'C') => void;
-}
-
-const CARD_ART_SRC = '/assets/cards/BLANK_TARRO_00.png';
-
-export function TextRoundCard({ roundLabel, vignette, options, value, onChange }: TextRoundCardProps) {
-  const fallbackSrc = useMemo(() => getAssetPlaceholder('Card art missing'), []);
-  const [isFallback, setIsFallback] = useState(false);
-
-  const handleCardError = (event: SyntheticEvent<HTMLImageElement>) => {
-    const { currentTarget } = event;
-    if (currentTarget.src === fallbackSrc) {
-      return;
-    }
-    currentTarget.src = fallbackSrc;
-    setIsFallback(true);
-  };
+  onChange: (id: Opt['id']) => void;
+}) {
+  const lines = normalizeVignette(vignette);
+  const backgroundSrc = sharedTextCardSrc || FALLBACK_IMG;
 
   return (
-    <div className="flex flex-col gap-6 rounded-3xl bg-surfaceSoft/80 p-6 shadow-ambient backdrop-blur-xl">
-      <div className="relative overflow-hidden rounded-2xl border border-white/5 p-8">
-        <img
-          src={CARD_ART_SRC}
-          alt=""
-          aria-hidden="true"
-          loading="lazy"
-          onError={handleCardError}
-          className="absolute inset-0 h-full w-full object-cover"
-        />
-        <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" aria-hidden />
-        <MissingAssetNotice show={isFallback} className="right-4 top-4" label="Card art missing" />
-        <div className="relative space-y-3 text-textPrimary">
-          <span className="text-xs uppercase tracking-[0.3em] text-textSecondary">{roundLabel}</span>
-          {vignette.map((paragraph, index) => (
-            <p key={index} className="text-base leading-relaxed text-textPrimary">
-              {paragraph}
-            </p>
-          ))}
+    <div className="w-full flex justify-center">
+      <div className="relative rounded-2xl overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.45)] bg-[color:var(--mm-bg-1)] max-w-md w-full">
+        {/* Portrait aspect */}
+        <div className="relative w-full aspect-[3/4]">
+          <img
+            src={backgroundSrc}
+            onError={(e) => { (e.currentTarget as HTMLImageElement).src = FALLBACK_IMG; }}
+            alt=""
+            className="absolute inset-0 h-full w-full object-contain opacity-60"
+          />
+          <div className="absolute inset-0 p-5 md:p-6 flex flex-col">
+            <div className="tracking-[0.2em] uppercase text-xs md:text-sm text-[color:var(--mm-text-on-dark)]/80">
+              {roundLabel}
+            </div>
+
+            {lines.length > 0 && (
+              <div className="mt-3 space-y-2 text-[color:var(--mm-text-on-card)] text-base leading-7 md:leading-8 bg-white/80 backdrop-blur-sm rounded-xl p-4">
+                {lines.map((t, i) => <p key={i}>{t}</p>)}
+              </div>
+            )}
+
+            <div className="mt-auto">
+              <div className="mt-4 divide-y divide-white/10 rounded-2xl bg-white/85 text-[color:var(--mm-text-on-card)]">
+                {options.map((o, i) => (
+                  <button
+                    key={o.id}
+                    type="button"
+                    role="radio"
+                    aria-pressed={value === o.id}
+                    onClick={() => onChange(o.id)}
+                    className={`w-full text-left p-4 md:p-5 focus-visible:outline-none focus-visible:ring-2 ring-offset-4 ring-offset-black ${
+                      i === 0 ? 'rounded-t-2xl' : ''} ${i === options.length - 1 ? 'rounded-b-2xl' : ''}`}
+                  >
+                    <span className={`mr-2 inline-block w-6 text-center ${value === o.id ? 'text-[var(--mm-amber)]' : 'opacity-70'}`}>{o.id}</span>
+                    {o.text}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+          </div>
         </div>
       </div>
-      <fieldset className="flex flex-col gap-3" aria-label={`${roundLabel} options`}>
-        {options.map((option) => {
-          const isSelected = option.id === value;
-          return (
-            <label
-              key={option.id}
-              className={`group flex cursor-pointer items-center justify-between gap-4 rounded-2xl border border-white/5 bg-surfaceSoft/60 px-4 py-3 text-left transition-all duration-[var(--transition-duration)] ease-cinematic hover:border-white/15 focus-within:border-accent ${
-                isSelected ? 'ring-2 ring-accent ring-offset-2 ring-offset-surface' : ''
-              }`}
-            >
-              <input
-                type="radio"
-                name={`text-round-${roundLabel}`}
-                value={option.id}
-                className="sr-only"
-                checked={isSelected}
-                onChange={() => onChange(option.id)}
-              />
-              <div className="flex flex-1 items-center gap-4">
-                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-sm font-semibold text-textPrimary transition-all duration-[var(--transition-duration)] ease-cinematic group-hover:bg-white/20">
-                  {option.id}
-                </span>
-                <span className="text-sm text-textPrimary/90">{option.text}</span>
-              </div>
-            </label>
-          );
-        })}
-      </fieldset>
     </div>
   );
 }

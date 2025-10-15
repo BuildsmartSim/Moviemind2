@@ -125,10 +125,7 @@ export default function App() {
             />
           }
         />
-        <Route
-          path="/results"
-          element={<Results manifest={manifest} answers={appState.answers} />}
-        />
+        <Route path="/results" element={<Results />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </FadeTransition>

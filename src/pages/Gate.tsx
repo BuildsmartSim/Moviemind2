@@ -113,11 +113,15 @@ export default function Gate({ manifest, answers, onSetAnswer }: GateProps) {
         <GateFrame title={gate.name} quadrant={gate.quadrant}>
           {currentRoundKey === 'R1' || currentRoundKey === 'R3' || currentRoundKey === 'R5' ? (
             <ImageChoiceGrid
-              images={resolveRoundImages(currentRoundKey).map((imageSrc, index) => ({
-                src: imageSrc,
-                alt: `${gate.name} vision ${index + 1}`,
-                key: imageSrc
-              }))}
+              images={resolveRoundImages(currentRoundKey).map((imageValue, index) => {
+                const isDataUrl = /^data:image\//i.test(imageValue);
+                return {
+                  id: imageValue,
+                  fileName: isDataUrl ? undefined : imageValue,
+                  src: isDataUrl ? imageValue : undefined,
+                  alt: `${gate.name} vision ${index + 1}`
+                };
+              })}
               value={typeof currentAnswer === 'string' ? currentAnswer : undefined}
               onChange={(value) => onSetAnswer(gate.id, currentRoundKey, value)}
             />

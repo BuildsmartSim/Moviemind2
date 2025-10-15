@@ -28,9 +28,9 @@ export default function Entry({ manifest, selectedGateId, onSelectGate }: EntryP
   const images = manifest.entry_round.map((entry) => {
     const gate = gateLookup.get(entry.gateId);
     return {
+      id: entry.gateId,
       src: entry.image,
-      alt: gate ? gate.name : entry.gateId,
-      key: entry.gateId
+      alt: gate ? gate.name : entry.gateId
     };
   });
 

@@ -1,6 +1,12 @@
-import React, { useRef } from "react";
+import { type MutableRefObject, useRef, useState } from "react";
+import { FALLBACK_IMG, imageSrcFor } from "../lib/imagePaths";
 
-type Img = { src: string; alt: string; key: string };
+type Img = {
+  id: string;
+  alt: string;
+  fileName?: string;
+  src?: string;
+};
 
 export default function ImageChoiceGrid({
   images, value, onChange
@@ -10,39 +16,65 @@ export default function ImageChoiceGrid({
   onChange: (k: string) => void;
 }) {
   const warned = useRef<Set<string>>(new Set());
-  const fallbackDataUrl =
-    "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGD4DwABAgEAfVd7VwAAAABJRU5ErkJggg==";
 
   return (
-    <div role="radiogroup" className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
-      {images.map(img => {
-        const sel = img.key === value;
-        return (
-          <button
-            key={img.key}
-            role="radio"
-            aria-checked={sel}
-            onClick={() => onChange(img.key)}
-            className={`group relative aspect-[2.39/1] overflow-hidden rounded-2xl ring-offset-4 ring-offset-black focus-visible:ring-2 transition hover:scale-[1.02] ${sel ? 'ring-2 ring-[var(--mm-amber)]' : ''}`}
-          >
-            <img
-              src={img.src}
-              alt={img.alt}
-              onError={(e) => {
-                const src = (e.currentTarget as HTMLImageElement).src;
-                if (!warned.current.has(src)) {
-                  warned.current.add(src);
-                  // eslint-disable-next-line no-console
-                  console.warn('Missing asset:', src);
-                }
-                (e.currentTarget as HTMLImageElement).src = fallbackDataUrl;
-              }}
-              className="h-full w-full object-cover opacity-95"
-            />
-            <span className="pointer-events-none absolute inset-0 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.06)]" />
-          </button>
-        );
-      })}
+    <div role="radiogroup" className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-6">
+      {images.map((img, index) => (
+        <ImageChoiceTile
+          key={`${img.id}-${index}`}
+          image={img}
+          selected={img.id === value}
+          onSelect={() => onChange(img.id)}
+          warned={warned}
+        />
+      ))}
     </div>
+  );
+}
+
+function ImageChoiceTile({
+  image,
+  selected,
+  onSelect,
+  warned
+}: {
+  image: Img;
+  selected: boolean;
+  onSelect: () => void;
+  warned: MutableRefObject<Set<string>>;
+}) {
+  const initialSrc = image.fileName ? imageSrcFor(image.fileName) : image.src || FALLBACK_IMG;
+  const [resolved, setResolved] = useState(initialSrc);
+
+  return (
+    <button
+      type="button"
+      role="radio"
+      aria-checked={selected}
+      onClick={onSelect}
+      className={`group relative overflow-hidden rounded-2xl ring-offset-4 ring-offset-black transition focus-visible:ring-2 hover:scale-[1.02] aspect-[3/4] ${
+        selected ? "ring-2 ring-[var(--mm-amber)]" : ""
+      }`}
+    >
+      <img
+        src={resolved}
+        alt={image.alt}
+        loading="lazy"
+        decoding="async"
+        onError={() => {
+          if (resolved === FALLBACK_IMG) {
+            return;
+          }
+          if (!warned.current.has(initialSrc)) {
+            warned.current.add(initialSrc);
+            // eslint-disable-next-line no-console
+            console.warn("Missing asset:", initialSrc);
+          }
+          setResolved(FALLBACK_IMG);
+        }}
+        className="h-full w-full object-cover object-center opacity-95"
+      />
+      <span className="pointer-events-none absolute inset-0 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.06)]" />
+    </button>
   );
 }

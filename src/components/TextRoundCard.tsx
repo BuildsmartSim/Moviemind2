@@ -1,4 +1,5 @@
 import React from "react";
+import { FALLBACK_IMG } from "../lib/imagePaths";
 import { normalizeVignette } from "../lib/manifest";
 
 type Opt = { id: 'A'|'B'|'C'; text: string };
@@ -14,8 +15,7 @@ export default function TextRoundCard({
   onChange: (id: Opt['id']) => void;
 }) {
   const lines = normalizeVignette(vignette);
-  const fallbackDataUrl =
-    "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGD4DwABAgEAfVd7VwAAAABJRU5ErkJggg==";
+  const backgroundSrc = sharedTextCardSrc || FALLBACK_IMG;
 
   return (
     <div className="w-full flex justify-center">
@@ -23,8 +23,8 @@ export default function TextRoundCard({
         {/* Portrait aspect */}
         <div className="relative w-full aspect-[3/4]">
           <img
-            src={sharedTextCardSrc}
-            onError={(e) => { (e.currentTarget as HTMLImageElement).src = fallbackDataUrl; }}
+            src={backgroundSrc}
+            onError={(e) => { (e.currentTarget as HTMLImageElement).src = FALLBACK_IMG; }}
             alt=""
             className="absolute inset-0 h-full w-full object-contain opacity-60"
           />

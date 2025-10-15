@@ -9,3 +9,11 @@ export async function fetchCsv(path: string) {
     return Object.fromEntries(headers.map((h, i) => [h, cells[i] ?? '']));
   });
 }
+
+export function normalizeFileName(value: string | undefined): string | undefined {
+  if (!value) return value;
+  const clean = value.trim().replace(/^[./\\]+/, '');
+  const segments = clean.split(/[\\/]/);
+  const last = segments[segments.length - 1];
+  return last || undefined;
+}
